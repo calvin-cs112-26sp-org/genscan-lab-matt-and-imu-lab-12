@@ -1,7 +1,7 @@
 TARGET = genScan
 SRC    = $(TARGET).cpp
 
-CC     = g++
+CC     = mpicxx
 CFLAGS = -O2 -Wall -ansi -pedantic -std=c++11
 LFLAGS = -o $(TARGET) -fopenmp
 
