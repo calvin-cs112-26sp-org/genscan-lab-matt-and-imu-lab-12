@@ -53,18 +53,18 @@ void processCommandLineArgs(int argc, char** argv,
  * Postcondition: seq contains the chars from the input file.
  */
 void readFile(const string& fileName, string& seq) {
-   ifstream fin(fileName.data());
-   if (! fin.is_open()) {
-      cerr << "\n *** Unable to open '" << fileName
-           << "' as input file\n\n";
-      exit(1);
-   } 
-   char ch = fin.get();
-   while (fin) {
-     seq += ch;
-     ch = fin.get();
-   }
-   fin.close();
+  ifstream fin(fileName.data()); // open file
+  if (! fin.is_open()) {         // check it
+     cerr << "\n *** Unable to open '" << fileName
+          << "' as input file\n\n";
+     exit(1);
+  } 
+  fin.seekg(0, std::ios::end);   // jump to end
+  long N = fin.tellg();          // N = fin's offset 
+  fin.seekg(0, std::ios::beg);   // undo jump
+  seq.resize(N);                 // resize seq to N
+  fin.get((char*)seq.data(), N); // read N bytes
+  fin.close();                   // clean up
 }
 
 /* scan a string containing a genetic sequence for a subsequence
