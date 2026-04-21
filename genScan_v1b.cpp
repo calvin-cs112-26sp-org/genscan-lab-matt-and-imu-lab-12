@@ -76,16 +76,18 @@ void readFile(const string& fileName, string& seq) {
              of subSeq within seq.
  */
 long scan(const string& seq, const string& subSeq) {
-   long skip = subSeq.size();
-   long count = 0;
-   size_t pos = seq.find(subSeq, 0);
-   while (pos != string::npos) {
-      ++count; 
-      pos = seq.find(subSeq, pos+skip);
-   } 
-   return count;
+   size_t subSeqSize = subSeq.size();
+   long seqStop = seq.size() - subSeqSize + 1;
+   long skip = subSeqSize - 1;
+   long occurrences = 0;
+   for (long i = 0; i < seqStop; ++i) {
+      if (seq.substr(i, subSeqSize) == subSeq) { // if they match
+         i += skip;
+         ++occurrences;
+      }
+   }   
+   return occurrences; 
 }
-
 
 /* output results of scan
  * @param: subSeq, a string
