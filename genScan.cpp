@@ -15,7 +15,7 @@
 #include <iostream>            // cout, etc.
 #include <fstream>             // ifstream, etc.
 #include <cstdlib>             // exit()
-//#include <omp.h>               // omp_get_wtime()
+#include <omp.h>               // omp_get_wtime()
 //#include <algorithm>           // search()
 //#include "OO_MPI_IO.h"         // ParallelReader
 using namespace std;
@@ -116,18 +116,19 @@ int main(int argc, char** argv) {
     string subSeq;
     string dna;
 
-    // double startTotalTime = omp_get_wtime();
+    double startTotalTime = omp_get_wtime();
     processCommandLineArgs(argc, argv, fileName, subSeq);
 
-    // double startReadTime = omp_get_wtime();
+    double startReadTime = omp_get_wtime();
     readFile(fileName, dna);
-    // double readTime = omp_get_wtime() - startReadTime;
+    double readTime = omp_get_wtime() - startReadTime;
 
-    // double startScanTime = omp_get_wtime();
+    double startScanTime = omp_get_wtime();
     long count = scan(dna, subSeq);
-    // double scanTime = omp_get_wtime() - startScanTime;
-    // double totalTime = omp_get_wtime() - startTotalTime;
+    double scanTime = omp_get_wtime() - startScanTime;
+    double totalTime = omp_get_wtime() - startTotalTime;
 
-    printResults(subSeq, count, 0.0, 0.0, 0.0);
+    //printResults(subSeq, count, 0.0, 0.0, 0.0);
+    printResults(subSeq, count, readTime, scanTime, totalTime);
 }
 
